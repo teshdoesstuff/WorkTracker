@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Work Tracker</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main>
+    <h1>Work Tracker</h1>
+
+    <section class="categories" aria-label="Categories">
+      <div id="chips" class="chips"></div>
+      <button id="add-category" class="add-category" type="button">+ Category</button>
+      <input id="category-input" class="category-input" type="text" maxlength="40"
+             placeholder="Category name" aria-label="New category name" hidden>
+    </section>
+
+    <ul id="tasks" class="tasks" aria-label="To-do list"></ul>
+    <p id="empty" class="empty" hidden></p>
+
+    <section id="done-section" class="done-section" aria-labelledby="done-heading" hidden>
+      <h2 id="done-heading">Done</h2>
+      <ul id="done-tasks" class="tasks"></ul>
+    </section>
+
+    <p id="status" class="sr-only" aria-live="polite"></p>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
