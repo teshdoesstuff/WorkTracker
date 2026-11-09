@@ -9,6 +9,7 @@
   const stopwatchTab = document.getElementById('mode-stopwatch');
   const countdownTab = document.getElementById('mode-countdown');
   const fields = document.getElementById('countdown-fields');
+  const hoursInput = document.getElementById('countdown-hours');
   const minutesInput = document.getElementById('countdown-minutes');
   const secondsInput = document.getElementById('countdown-seconds');
   const startBtn = document.getElementById('timer-start');
@@ -54,12 +55,11 @@
     }
   }
 
-  function formatTime(totalMs) {
-    const ms = Math.floor(totalMs);
-    const minutes = Math.floor(ms / 60000);
-    const seconds = String(Math.floor(ms / 1000) % 60).padStart(2, '0');
-    const millis = String(ms % 1000).padStart(3, '0');
-    return `${minutes}:${seconds}:${millis}`;
+  function formatTime(totalSeconds) {
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = String(Math.floor(totalSeconds / 60) % 60).padStart(2, '0');
+    const seconds = String(totalSeconds % 60).padStart(2, '0');
+    return `${hours}:${minutes}:${seconds}`;
   }
 
   function stopwatchMs() {
@@ -80,8 +80,12 @@
 
   /* Drawing */
 
+  // The countdown rounds up so it starts on the full time and shows zero only when it's over.
   function renderDisplay() {
-    display.textContent = formatTime(time.mode === 'stopwatch' ? stopwatchMs() : countdownMs());
+    const seconds = time.mode === 'stopwatch'
+      ? Math.floor(stopwatchMs() / 1000)
+      : Math.ceil(countdownMs() / 1000);
+    display.textContent = formatTime(seconds);
   }
 
   function renderControls() {
@@ -92,8 +96,9 @@
     stopwatchTab.setAttribute('aria-pressed', String(!isCountdown));
     countdownTab.setAttribute('aria-pressed', String(isCountdown));
     fields.hidden = !isCountdown;
-    minutesInput.disabled = running;
-    secondsInput.disabled = running;
+    [hoursInput, minutesInput, secondsInput].forEach((input) => {
+      input.disabled = running;
+    });
 
     startBtn.disabled = running || (isCountdown && duration === 0);
     stopBtn.disabled = !running;
@@ -107,9 +112,10 @@
   }
 
   function fillCountdownFields() {
-    const { duration } = time.countdown;
-    minutesInput.value = Math.floor(duration / 60000);
-    secondsInput.value = Math.floor(duration / 1000) % 60;
+    const totalSeconds = Math.floor(time.countdown.duration / 1000);
+    hoursInput.value = Math.floor(totalSeconds / 3600);
+    minutesInput.value = Math.floor(totalSeconds / 60) % 60;
+    secondsInput.value = totalSeconds % 60;
   }
 
   function loop() {
@@ -240,10 +246,11 @@
   }
 
   function onDurationInput() {
-    const minutes = readField(minutesInput, 999);
+    const hours = readField(hoursInput, 99);
+    const minutes = readField(minutesInput, 59);
     const seconds = readField(secondsInput, 59);
     clearFinished();
-    time.countdown.duration = (minutes * 60 + seconds) * 1000;
+    time.countdown.duration = (hours * 3600 + minutes * 60 + seconds) * 1000;
     time.countdown.remaining = time.countdown.duration;
     save();
     renderControls();
@@ -254,7 +261,7 @@
   resetBtn.addEventListener('click', reset);
   stopwatchTab.addEventListener('click', () => setMode('stopwatch'));
   countdownTab.addEventListener('click', () => setMode('countdown'));
-  [minutesInput, secondsInput].forEach((input) => {
+  [hoursInput, minutesInput, secondsInput].forEach((input) => {
     input.addEventListener('input', onDurationInput);
     input.addEventListener('change', fillCountdownFields);
   });

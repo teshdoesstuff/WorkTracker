@@ -42,12 +42,16 @@
         <button id="mode-countdown" type="button">Countdown</button>
       </div>
 
-      <div id="timer-display" class="timer-display" role="timer">0:00:000</div>
+      <div id="timer-display" class="timer-display" role="timer">0:00:00</div>
       <p id="timer-status" class="timer-status" role="status"></p>
 
       <div id="countdown-fields" class="countdown-fields" hidden>
         <label>
-          <input id="countdown-minutes" type="number" min="0" max="999" step="1" inputmode="numeric">
+          <input id="countdown-hours" type="number" min="0" max="99" step="1" inputmode="numeric">
+          hr
+        </label>
+        <label>
+          <input id="countdown-minutes" type="number" min="0" max="59" step="1" inputmode="numeric">
           min
         </label>
         <label>

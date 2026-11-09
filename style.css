@@ -357,7 +357,7 @@ body.is-dragging * {
 
 .timer-display {
   margin-top: 40px;
-  font-size: clamp(52px, 15vw, 96px);
+  font-size: clamp(56px, 18vw, 112px);
   font-variant-numeric: tabular-nums;
   font-weight: 300;
   letter-spacing: -0.02em;
@@ -378,20 +378,22 @@ body.is-dragging * {
 
 .countdown-fields {
   display: flex;
-  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
   margin-top: 16px;
 }
 
 .countdown-fields label {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   color: var(--muted);
   font-size: 14px;
 }
 
 .countdown-fields input {
-  width: 76px;
+  width: 60px;
   min-height: 40px;
   padding: 4px 8px;
   background: none;
