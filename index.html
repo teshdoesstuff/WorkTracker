@@ -8,26 +8,63 @@
 </head>
 <body>
   <main>
-    <h1>Work Tracker</h1>
+    <nav class="page-tabs" aria-label="Pages">
+      <a href="#work" data-page="work">Work Tracker</a>
+      <a href="#time" data-page="time">Time Tracker</a>
+    </nav>
 
-    <section class="categories" aria-label="Categories">
-      <div id="chips" class="chips"></div>
-      <button id="add-category" class="add-category" type="button">+ Category</button>
-      <input id="category-input" class="category-input" type="text" maxlength="40"
-             placeholder="Category name" aria-label="New category name" hidden>
-    </section>
+    <div id="page-work">
+      <h1 class="sr-only">Work Tracker</h1>
 
-    <ul id="tasks" class="tasks" aria-label="To-do list"></ul>
-    <p id="empty" class="empty" hidden></p>
+      <section class="categories" aria-label="Categories">
+        <div id="chips" class="chips"></div>
+        <button id="add-category" class="add-category" type="button">+ Category</button>
+        <input id="category-input" class="category-input" type="text" maxlength="40"
+               placeholder="Category name" aria-label="New category name" hidden>
+      </section>
 
-    <section id="done-section" class="done-section" aria-labelledby="done-heading" hidden>
-      <h2 id="done-heading">Done</h2>
-      <ul id="done-tasks" class="tasks"></ul>
-    </section>
+      <ul id="tasks" class="tasks" aria-label="To-do list"></ul>
+      <p id="empty" class="empty" hidden></p>
 
-    <p id="status" class="sr-only" aria-live="polite"></p>
+      <section id="done-section" class="done-section" aria-labelledby="done-heading" hidden>
+        <h2 id="done-heading">Done</h2>
+        <ul id="done-tasks" class="tasks"></ul>
+      </section>
+
+      <p id="status" class="sr-only" aria-live="polite"></p>
+    </div>
+
+    <div id="page-time" class="timer-page" hidden>
+      <h1 class="sr-only">Time Tracker</h1>
+
+      <div class="timer-modes" role="group" aria-label="Timer type">
+        <button id="mode-stopwatch" type="button">Timer</button>
+        <button id="mode-countdown" type="button">Countdown</button>
+      </div>
+
+      <div id="timer-display" class="timer-display" role="timer">0:00:000</div>
+      <p id="timer-status" class="timer-status" role="status"></p>
+
+      <div id="countdown-fields" class="countdown-fields" hidden>
+        <label>
+          <input id="countdown-minutes" type="number" min="0" max="999" step="1" inputmode="numeric">
+          min
+        </label>
+        <label>
+          <input id="countdown-seconds" type="number" min="0" max="59" step="1" inputmode="numeric">
+          sec
+        </label>
+      </div>
+
+      <div class="timer-controls">
+        <button id="timer-start" class="timer-start" type="button">Start</button>
+        <button id="timer-stop" type="button">Stop</button>
+        <button id="timer-reset" type="button">Reset</button>
+      </div>
+    </div>
   </main>
 
   <script src="script.js"></script>
+  <script src="timer.js"></script>
 </body>
 </html>

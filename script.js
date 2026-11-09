@@ -494,4 +494,25 @@ tasksEl.addEventListener('pointerdown', onPointerDown);
 
 window.addEventListener('resize', autosizeAll);
 
+/* Page tabs */
+
+// Both pages stay loaded, so a running timer keeps going while the Work Tracker is showing.
+function showPageFromHash() {
+  const page = window.location.hash === '#time' ? 'time' : 'work';
+
+  document.getElementById('page-work').hidden = page !== 'work';
+  document.getElementById('page-time').hidden = page !== 'time';
+  document.title = page === 'time' ? 'Time Tracker' : 'Work Tracker';
+  document.querySelectorAll('.page-tabs a').forEach((tab) => {
+    if (tab.dataset.page === page) tab.setAttribute('aria-current', 'page');
+    else tab.removeAttribute('aria-current');
+  });
+
+  // Descriptions can't be measured while their page is hidden.
+  if (page === 'work') autosizeAll();
+}
+
+window.addEventListener('hashchange', showPageFromHash);
+
 render();
+showPageFromHash();
